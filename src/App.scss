@@ -1,33 +1,226 @@
-.App {
+$max-body-size: 550px;
+$max-left-spacing: 60px;
+$small-left-spacing: $max-left-spacing / 2;
+$add-button-width: 50px;
+$ei-input-width: 61px;
+$todo-input-spacing: 16px;
+$todo-main-spacing: $todo-input-spacing - 1;
+$main-font-size: 24px;
+$small-font-size: 20px;
+$remove-button-width: 40px;
+$remove-button-width-extras: 10px;
+$todo-metas-width: 60px;
+
+h1 {
+  font-size: 100px;
+  font-weight: 100;
   text-align: center;
+  color: rgba(45, 20, 200, 0.25);
+  text-rendering: optimizeLegibility;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+:focus {
+  outline: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+::placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #a3a3a3;
 }
 
-.App-link {
-  color: #61dafb;
-}
+.notepad {
+  background: #fff;
+  margin-bottom: 50px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+  0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  form {
+    position: relative;
+    background: rgba(0, 0, 0, 0.003);
+    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+
+    .text-input-wrapper {
+      $right-spacing: $todo-input-spacing + $add-button-width + $ei-input-width;
+      padding: $todo-input-spacing $right-spacing $todo-input-spacing $max-left-spacing;
+
+      @media only screen and (max-width: 600px) {
+        padding: $todo-input-spacing $right-spacing $todo-input-spacing $small-left-spacing;
+
+        input[type="text"] {
+          font-size: $small-font-size;
+          height: $small-font-size + 10px;
+        }
+      }
+
+      input {
+        height: $main-font-size + 10px;
+        width: 100%;
+        font-size: $main-font-size;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: 1.4em;
+        border: 0;
+        color: inherit;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+
+    .ei-wrapper input {
+      box-sizing: border-box;
+      position: absolute;
+      right: $add-button-width;
+      height: 33px;
+      border: 1px solid lightgrey;
+      width: $ei-input-width;
+      padding: 0 2px 0 8px;
+      font-family: inherit;
+      font-weight: inherit;
+      border-top: 0;
+      border-right: 0;
+
+      @media only screen and (max-width: 600px) {
+        height: 31px;
+      }
+
+      &.effort {
+        top: 0;
+      }
+
+      &.impact {
+        bottom: 0;
+        border-bottom: 0;
+      }
+    }
+
+    button {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: $add-button-width;
+    }
   }
-  to {
-    transform: rotate(360deg);
+
+  .list {
+    position: relative;
+    border-top: 1px solid #e6e6e6;
+
+    &:before {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 50px;
+      overflow: hidden;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+      0 8px 0 -3px #f6f6f6,
+      0 9px 1px -3px rgba(0, 0, 0, 0.2),
+      0 16px 0 -6px #f6f6f6,
+      0 17px 2px -6px rgba(0, 0, 0, 0.2);
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        position: relative;
+        font-size: $main-font-size;
+        border-bottom: 1px solid #ededed;
+        word-break: break-all;
+        padding: $todo-main-spacing $todo-main-spacing $todo-main-spacing $max-left-spacing;
+        line-height: 1.2;
+        transition: color 0.4s;
+
+        @media only screen and (max-width: 600px) {
+          padding: $todo-main-spacing $todo-main-spacing $todo-main-spacing $small-left-spacing;
+        }
+
+        .remove {
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 10px;
+          bottom: 0;
+          width: $remove-button-width;
+          height: 40px;
+          margin: auto 0 auto 11px;
+          font-size: 30px;
+          color: #cc9a9a;
+          transition: color 0.2s ease-out;
+          cursor: pointer;
+          padding: 0;
+          border: 0;
+          background: none;
+          vertical-align: baseline;
+          font-family: inherit;
+          font-weight: inherit;
+          -webkit-appearance: none;
+          appearance: none;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+
+          &:hover {
+            color: #af5b5e;
+          }
+
+          &:after {
+            content: '×';
+          }
+
+          @media (hover: hover) and (pointer: fine) {
+            display: none;
+          }
+        }
+
+        &:hover .remove {
+          display: block;
+        }
+
+        .todo-text {
+          padding: 0 ($todo-metas-width + $remove-button-width + $remove-button-width-extras) 0 0;
+
+          @media only screen and (max-width: 600px) {
+            font-size: $small-font-size;
+          }
+        }
+
+        .todo-meta {
+          position: absolute;
+          top: 0;
+          right: 50px;
+          bottom: 0;
+          width: $todo-metas-width;
+          height: 40px;
+          margin: auto 0 auto 11px;
+          padding-top: 22px;
+
+          .metaline {
+            font-size: $main-font-size / 2;
+            line-height: 0.6;
+            padding: 2px;
+
+            .metalinelabel,
+            .metalinenumber {
+              display: inline-block;
+            }
+
+            .metalinelabel {
+              margin-right: 2px;
+              text-align: right;
+              width: 40px;
+            }
+          }
+        }
+      }
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }
