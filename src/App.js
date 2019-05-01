@@ -87,6 +87,9 @@ function App() {
           {sortButton}
           {todoList}
         </div>
+        <footer>
+          <a href="https://github.com/votemike/todo#Tah-Do">About Tah-Do</a>
+        </footer>
       </div>
   );
 }

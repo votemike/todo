@@ -252,3 +252,17 @@ h1 {
     }
   }
 }
+
+footer {
+  margin-bottom: 20px;
+  text-align: center;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
