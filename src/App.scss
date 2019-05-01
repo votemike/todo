@@ -104,6 +104,34 @@ h1 {
     }
   }
 
+  .prioritise-button-wrapper {
+    height: 63px;
+    transition: height 400ms ease-in-out;
+    overflow: hidden;
+
+    &.hidden {
+      height: 0;
+    }
+
+    .prioritise-button {
+      border: none;
+      background: lighten(#4d4d4d, 30%);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: $main-font-size;
+      cursor: pointer;
+      transition: transform 150ms ease;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      height: 100%;
+      width: 100%;
+
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+  }
+
   .list {
     position: relative;
     border-top: 1px solid #e6e6e6;

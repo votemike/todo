@@ -41,12 +41,38 @@ function App() {
     setTodos(newTodos);
   };
 
+  const todosNeedSorting = function (todos) {
+    if (todos.length <= 1) {
+      return false;
+    }
+
+    const todosString = JSON.stringify(todos); //clone
+    const prioritisedTodos = getPrioritisedTodos(JSON.parse(todosString));
+
+    return JSON.stringify(prioritisedTodos) !== todosString;
+  };
+
+  const prioritiseTodos = () => {
+    setTodos(getPrioritisedTodos(JSON.parse(JSON.stringify(todos))));
+  };
+
+  const getPrioritisedTodos = todos => {
+    todos.sort((a, b) => (b.impact - b.effort) - (a.impact - a.effort));
+    return todos;
+  };
+
   let todoList;
+  let sortButton;
   if (todos.length > 0) {
     todoList = (
         <section className="list">
           <TodoList todos={todos} removeTodo={removeTodo}/>
         </section>
+    );
+    sortButton = (
+        <div className={"prioritise-button-wrapper " + (todosNeedSorting(todos) ? "" : "hidden")}>
+          <button className="prioritise-button" onClick={prioritiseTodos}>Prioritise</button>
+        </div>
     );
   }
 
@@ -58,6 +84,7 @@ function App() {
         </header>
         <div className="notepad">
           <AddTodo submitHandler={addTodoHandler} />
+          {sortButton}
           {todoList}
         </div>
       </div>
