@@ -31,9 +31,10 @@ h1 {
 
 .notepad {
   background: #fff;
-  margin-bottom: 50px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
   0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  margin: 0 auto 50px auto;
+  min-width: 230px;
 
   form {
     position: relative;
@@ -44,7 +45,8 @@ h1 {
       $right-spacing: $todo-input-spacing + $add-button-width + $ei-input-width;
       padding: $todo-input-spacing $right-spacing $todo-input-spacing $max-left-spacing;
 
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: 600px),
+      only screen and (min-width: 850px) and (max-width: 990px) {
         padding: $todo-input-spacing $right-spacing $todo-input-spacing $small-left-spacing;
 
         input[type="text"] {
@@ -81,7 +83,8 @@ h1 {
       border-top: 0;
       border-right: 0;
 
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: 600px),
+      only screen and (min-width: 850px) and (max-width: 990px) {
         height: 31px;
       }
 
@@ -165,7 +168,8 @@ h1 {
         line-height: 1.2;
         transition: color 0.4s;
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 600px),
+        only screen and (min-width: 850px) and (max-width: 990px) {
           padding: $todo-main-spacing $todo-main-spacing $todo-main-spacing $small-left-spacing;
         }
 
@@ -213,7 +217,8 @@ h1 {
         .todo-text {
           padding: 0 ($todo-metas-width + $remove-button-width + $remove-button-width-extras) 0 0;
 
-          @media only screen and (max-width: 600px) {
+          @media only screen and (max-width: 600px),
+          only screen and (min-width: 850px) and (max-width: 990px) {
             font-size: $small-font-size;
           }
         }
@@ -250,6 +255,26 @@ h1 {
         border-bottom: none;
       }
     }
+  }
+}
+
+.graph {
+  margin: 0 auto 25px auto;
+
+  @media only screen and (min-width: 850px) {
+    vertical-align:top;
+    float: right;
+  }
+}
+
+.notepad,
+.graph {
+  max-width: 550px;
+
+  @media only screen and (min-width: 850px) {
+    display: inline-block;
+    margin: 0 10px 50px 10px;
+    width: 45%;
   }
 }
 

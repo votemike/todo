@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import Graph from './components/Graph';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
 
@@ -61,6 +62,7 @@ function App() {
     return todos;
   };
 
+  let graph;
   let todoList;
   let sortButton;
   if (todos.length > 0) {
@@ -74,8 +76,12 @@ function App() {
           <button className="prioritise-button" onClick={prioritiseTodos}>Prioritise</button>
         </div>
     );
+    graph = (
+        <div className="graph">
+          <Graph todos={todos}/>
+        </div>
+    );
   }
-
 
   return (
       <div>
@@ -87,6 +93,7 @@ function App() {
           {sortButton}
           {todoList}
         </div>
+        {graph}
         <footer>
           <a href="https://github.com/votemike/todo#Tah-Do">About Tah-Do</a>
         </footer>
