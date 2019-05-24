@@ -3,37 +3,51 @@ import './App.scss';
 import Graph from './components/Graph';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
+import Settings from './components/Settings';
 
 function App() {
-  const useStateWithLocalStorage = storageKey => {
-    const [todos, setTodos] = React.useState(
-        JSON.parse(localStorage.getItem(storageKey)) || [
-      { effort: 1, impact: 10, text: "Add to Home screen" },
-      { effort: 2, impact: 9, text: "Add some todos" },
-      { effort: 3, impact: 4, text: "Test offline" }
-    ]);
+  const useStateWithLocalStorage = (storageKey, defaultValue) => {
+    const [name, setter] = React.useState(JSON.parse(localStorage.getItem(storageKey)) || defaultValue);
 
     React.useEffect(() => {
-      localStorage.setItem(storageKey, JSON.stringify(todos));
-    }, [todos, storageKey]);
+      localStorage.setItem(storageKey, JSON.stringify(name));
+    }, [name, storageKey]);
 
-    return [todos, setTodos];
+    return [name, setter];
   };
 
-  const [todos, setTodos] = useStateWithLocalStorage('todos');
+  const [todos, setTodos] = useStateWithLocalStorage(
+      'todos',
+      [
+          { effort: 1, impact: 10, text: "Add to Home screen" },
+          { effort: 2, impact: 9, text: "Add some todos" },
+          { effort: 3, impact: 4, text: "Test offline" }
+      ]
+  );
+  const [variableNames, setVariableNames] = useStateWithLocalStorage('variableNames', {impact: "Impact", effort: "Effort"});
 
   const addTodoHandler = event => {
     event.preventDefault();
 
-    const text = event.target.elements.todo.value.trim();
+    let { todo, impact, effort } = event.target.elements;
+
+    const text = todo.value.trim();
 
     if (text) {
-      const newTodos = [...todos, { text: event.target.elements.todo.value, effort: event.target.elements.effort.value || 5, impact: event.target.elements.impact.value || 5 }];
+      const newTodos = [...todos, { text: todo.value, effort: effort.value || 5, impact: impact.value || 5 }];
       setTodos(newTodos);
-      event.target.elements.todo.value = null;
-      event.target.elements.effort.value = null;
-      event.target.elements.impact.value = null;
+      todo.value = null;
+      effort.value = null;
+      impact.value = null;
     }
+  };
+
+  const renameHandler = event => {
+    event.preventDefault();
+
+    const { impact, effort } = event.target.elements;
+
+    setVariableNames({impact: impact.value, effort: effort.value});
   };
 
   const removeTodo = index => {
@@ -68,7 +82,7 @@ function App() {
   if (todos.length > 0) {
     todoList = (
         <section className="list">
-          <TodoList todos={todos} removeTodo={removeTodo}/>
+          <TodoList todos={todos} removeTodo={removeTodo} variableNames={variableNames}/>
         </section>
     );
     sortButton = (
@@ -78,7 +92,7 @@ function App() {
     );
     graph = (
         <div className="graph">
-          <Graph todos={todos}/>
+          <Graph todos={todos} variableNames={variableNames}/>
         </div>
     );
   }
@@ -88,13 +102,16 @@ function App() {
         <header>
           <h1>Tah-Do</h1>
         </header>
-        <div className="notepad">
-          <AddTodo submitHandler={addTodoHandler} />
-          {sortButton}
-          {todoList}
+        <div className="container">
+          <div className="notepad">
+            <AddTodo submitHandler={addTodoHandler} variableNames={variableNames} />
+            {sortButton}
+            {todoList}
+          </div>
+          {graph}
         </div>
-        {graph}
         <footer>
+          <Settings renameHandler={renameHandler} variableNames={variableNames} />
           <a href="https://github.com/votemike/todo#Tah-Do">About Tah-Do</a>
         </footer>
       </div>

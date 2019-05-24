@@ -2,7 +2,7 @@ import React from 'react';
 import CanvasJSReact from './../canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-function Graph({ todos }) {
+function Graph({ todos, variableNames }) {
 
     const decimalToHex = (decimal) => {
         let hex = Number(decimal).toString(16);
@@ -30,7 +30,7 @@ function Graph({ todos }) {
     const options = {
         animationEnabled: true,
         title: {
-            text: "Impact/Effort",
+            text: `${variableNames.impact}/${variableNames.effort}`,
             fontFamily: "Helvetica",
             titleFontColor: "#4d4d4d"
         },
@@ -49,7 +49,7 @@ function Graph({ todos }) {
             cornerRadius: 4
         },
         axisX: {
-            title:"Effort",
+            title: variableNames.effort,
             includeZero: true,
             minimum: 0,
             maximum: 10.5,
@@ -58,7 +58,7 @@ function Graph({ todos }) {
             titleFontColor: "#4d4d4d"
         },
         axisY: {
-            title: "Impact",
+            title: variableNames.impact,
             includeZero: true,
             minimum: 0,
             maximum: 10.5,
