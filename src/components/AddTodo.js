@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TodoForm({ submitHandler, variableNames }) {
+function TodoForm({ submitHandler, settings }) {
     return (
         <form onSubmit={submitHandler}>
             <div className="text-input-wrapper">
@@ -13,8 +13,8 @@ function TodoForm({ submitHandler, variableNames }) {
                 />
             </div>
             <div className="ei-wrapper">
-                <input type="number" min="1" max="10" step="1" placeholder={variableNames.effort} className="effort" name="effort" required={true}/>
-                <input type="number" min="0" max="10" step="1" placeholder={variableNames.impact} className="impact" name="impact" required={true}/>
+                <input type="number" min="1" max="10" step="1" placeholder={settings.effort} className="effort" name="effort" required={true}/>
+                <input type="number" min="0" max="10" step="1" placeholder={settings.impact} className="impact" name="impact" required={true}/>
             </div>
             <button type="submit">Add</button>
         </form>

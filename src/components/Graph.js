@@ -2,7 +2,7 @@ import React from 'react';
 import CanvasJSReact from './../canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-function Graph({ todos, variableNames }) {
+function Graph({ todos, settings }) {
 
     const decimalToHex = (decimal) => {
         let hex = Number(decimal).toString(16);
@@ -14,23 +14,34 @@ function Graph({ todos, variableNames }) {
         return hex;
     };
 
+    const truncateText = (text, length) => {
+        return text.length > length ? `${text.substring(0, length)}...` : text;
+    };
+
     const dataPoints = todos.map((todo) => {
         const red = 127 + Math.ceil(12.75 * (todo.effort - todo.impact));
         const green = 255 - red;
         const colour = '#' + decimalToHex(red) + decimalToHex(green) + '00';
 
-        return {
+        let point = {
             x: parseInt(todo.effort),
             y: parseInt(todo.impact),
-            text: todo.text.length > 30 ? `${todo.text.substring(0, 30)}...` : todo.text,
+            text: truncateText(todo.text, 30),
             color: colour
         };
+
+        if (settings.showLabels) {
+            point.indexLabel = truncateText(todo.text, 20);
+        }
+
+        return point;
     });
 
-    const options = {
+    let options = {
+        exportEnabled: true,
         animationEnabled: true,
         title: {
-            text: `${variableNames.impact}/${variableNames.effort}`,
+            text: `${settings.impact}/${settings.effort}`,
             fontFamily: "Helvetica",
             titleFontColor: "#4d4d4d"
         },
@@ -41,15 +52,8 @@ function Graph({ todos, variableNames }) {
                 fontColor: "#4d4d4d"
             }
         ],
-        toolTip: {
-            content: "{text} {y}-{x}",
-            backgroundColor: "#f5f5f5",
-            fontFamily: "Helvetica",
-            fontColor: "#4d4d4d",
-            cornerRadius: 4
-        },
         axisX: {
-            title: variableNames.effort,
+            title: settings.effort,
             includeZero: true,
             minimum: 0,
             maximum: 10.5,
@@ -58,7 +62,7 @@ function Graph({ todos, variableNames }) {
             titleFontColor: "#4d4d4d"
         },
         axisY: {
-            title: variableNames.impact,
+            title: settings.impact,
             includeZero: true,
             minimum: 0,
             maximum: 10.5,
@@ -71,6 +75,21 @@ function Graph({ todos, variableNames }) {
             dataPoints: dataPoints
         }]
     };
+
+    if (settings.showLabels) {
+        options.toolTip = {
+            enabled: false
+        };
+    } else {
+        options.toolTip = {
+            enabled: true,
+            content: "{text} {y}-{x}",
+            backgroundColor: "#f5f5f5",
+            fontFamily: "Helvetica",
+            fontColor: "#4d4d4d",
+            cornerRadius: 4
+        };
+    }
 
     return (<CanvasJSChart options = {options}/>);
 }

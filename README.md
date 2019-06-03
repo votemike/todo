@@ -13,6 +13,7 @@ Tah-Do is a todo list with a difference. Tah-Do helps you prioritise your items 
 
 ### Troubleshooting
 * **The "Prioritise" button isn't showing**: The "Prioritise" button only shows when your list is not in priority order.
+* **When exporting the graph, there are no labels**: Click "Show Settings", then "Show Labels", then "Save". Then try exporting again.
 * For any other issues, [tweet me](https://twitter.com/OfficialGwynne) or [open a GitHub issue](https://github.com/votemike/todo/issues/new)
 
 ## Running locally

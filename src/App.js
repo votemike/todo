@@ -24,7 +24,7 @@ function App() {
           { effort: 3, impact: 4, text: "Test offline" }
       ]
   );
-  const [variableNames, setVariableNames] = useStateWithLocalStorage('variableNames', {impact: "Impact", effort: "Effort"});
+  const [settings, setSettings] = useStateWithLocalStorage('settings', {impact: "Impact", effort: "Effort", showLabels: false});
 
   const addTodoHandler = event => {
     event.preventDefault();
@@ -42,12 +42,12 @@ function App() {
     }
   };
 
-  const renameHandler = event => {
+  const settingsFormHandler = event => {
     event.preventDefault();
 
-    const { impact, effort } = event.target.elements;
+    const { impact, effort, tooltip } = event.target.elements;
 
-    setVariableNames({impact: impact.value, effort: effort.value});
+    setSettings({impact: impact.value, effort: effort.value, showLabels: !tooltip.checked });
   };
 
   const removeTodo = index => {
@@ -82,7 +82,7 @@ function App() {
   if (todos.length > 0) {
     todoList = (
         <section className="list">
-          <TodoList todos={todos} removeTodo={removeTodo} variableNames={variableNames}/>
+          <TodoList todos={todos} removeTodo={removeTodo} settings={settings}/>
         </section>
     );
     sortButton = (
@@ -92,7 +92,7 @@ function App() {
     );
     graph = (
         <div className="graph">
-          <Graph todos={todos} variableNames={variableNames}/>
+          <Graph todos={todos} settings={settings}/>
         </div>
     );
   }
@@ -104,14 +104,14 @@ function App() {
         </header>
         <div className="container">
           <div className="notepad">
-            <AddTodo submitHandler={addTodoHandler} variableNames={variableNames} />
+            <AddTodo submitHandler={addTodoHandler} settings={settings} />
             {sortButton}
             {todoList}
           </div>
           {graph}
         </div>
         <footer>
-          <Settings renameHandler={renameHandler} variableNames={variableNames} />
+          <Settings settingsFormHandler={settingsFormHandler} settings={settings} />
           <a href="https://github.com/votemike/todo#Tah-Do">About Tah-Do</a>
         </footer>
       </div>

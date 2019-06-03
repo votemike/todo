@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Settings({ renameHandler, variableNames }) {
+function Settings({ settingsFormHandler, settings }) {
     const [showSettings, setShowSettings] = React.useState(false);
 
     const settingsButtonHandler = event => {
@@ -12,7 +12,7 @@ function Settings({ renameHandler, variableNames }) {
     return (
         <div className="settings">
             <button id="settings-toggle" onClick={settingsButtonHandler}>{showSettings ? 'Hide Settings' : 'Show Settings'}</button>
-            <form onSubmit={renameHandler} className={showSettings ? "" : "hidden"}>
+            <form onSubmit={settingsFormHandler} className={showSettings ? "" : "hidden"}>
                 <div className="form-row">
                     <label htmlFor="impact">Rename "Impact"</label>
                     <input
@@ -21,7 +21,7 @@ function Settings({ renameHandler, variableNames }) {
                         placeholder="Users, sales, value"
                         type="text"
                         required={true}
-                        defaultValue={variableNames.impact}
+                        defaultValue={settings.impact}
                     />
                 </div>
                 <div className="form-row">
@@ -32,7 +32,25 @@ function Settings({ renameHandler, variableNames }) {
                         placeholder="Cost, speed, difficulty"
                         type="text"
                         required={true}
-                        defaultValue={variableNames.effort}
+                        defaultValue={settings.effort}
+                    />
+                </div>
+                <div className="form-row">
+                    <label htmlFor="tooltip">Show Tooltips</label>
+                    <input
+                        id="tooltip"
+                        name="label-display"
+                        type="radio"
+                        required={true}
+                        defaultChecked={!settings.showLabels}
+                    />
+                    <label htmlFor="label">Show Labels</label>
+                    <input
+                        id="label"
+                        name="label-display"
+                        type="radio"
+                        required={true}
+                        defaultChecked={settings.showLabels}
                     />
                 </div>
                 <button type="submit">Save</button>
