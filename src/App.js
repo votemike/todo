@@ -4,6 +4,8 @@ import Graph from './components/Graph';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
 import Settings from './components/Settings';
+import JiraImport from './components/JiraImport';
+import Jira from './utilities/Jira';
 
 function App() {
   const useStateWithLocalStorage = (storageKey, defaultValue) => {
@@ -24,7 +26,19 @@ function App() {
           { effort: 3, impact: 4, text: "Test offline" }
       ]
   );
+  const effortRef = React.createRef();
   const [settings, setSettings] = useStateWithLocalStorage('settings', {impact: "Impact", effort: "Effort", showLabels: false});
+  const [jiraItems, setJiraItems] = React.useState([]);
+  const [newItemText, setNewItemText] = React.useState('');
+  React.useEffect(() => {
+    if (jiraItems.length > 0 && newItemText === '') {
+      setNewItemText(jiraItems[0].text);
+      const newestJiraItems = [...jiraItems];
+      newestJiraItems.splice(0, 1);
+      setJiraItems(newestJiraItems);
+      effortRef.current.focus();
+    }
+  }, [jiraItems, newItemText, setJiraItems, effortRef]);
 
   const addTodoHandler = event => {
     event.preventDefault();
@@ -36,9 +50,9 @@ function App() {
     if (text) {
       const newTodos = [...todos, { text: todo.value, effort: effort.value || 5, impact: impact.value || 5 }];
       setTodos(newTodos);
-      todo.value = null;
       effort.value = null;
       impact.value = null;
+      setNewItemText('');
     }
   };
 
@@ -104,13 +118,14 @@ function App() {
         </header>
         <div className="container">
           <div className="notepad">
-            <AddTodo submitHandler={addTodoHandler} settings={settings} />
+            <AddTodo newItemText={newItemText} submitHandler={addTodoHandler} settings={settings} effortRef={effortRef} />
             {sortButton}
             {todoList}
           </div>
           {graph}
         </div>
         <footer>
+          <JiraImport handleFiles={(event) => Jira.handleCsvUpload(event, jiraItems, setJiraItems)}/>
           <Settings settingsFormHandler={settingsFormHandler} settings={settings} />
           <a href="https://github.com/votemike/todo#Tah-Do">About Tah-Do</a>
         </footer>

@@ -297,8 +297,10 @@ footer {
   }
 }
 
-.settings {
-  #settings-toggle {
+.togglable-section {
+  margin-bottom: 10px;
+
+  button.show-hide-toggle {
     background: none;
     border: none;
     padding: 0;
@@ -311,7 +313,23 @@ footer {
       text-decoration:underline;
     }
   }
+}
 
+.jira-import {
+  input {
+    height: 18px;
+    display: block;
+    margin: 5px auto;
+    transition: height 400ms ease-in-out;
+    overflow: hidden;
+    &.hidden {
+      height: 0;
+    }
+  }
+
+}
+
+.settings {
   form {
     height: 104px;
     transition: height 400ms ease-in-out;
@@ -330,8 +348,6 @@ footer {
       }
     }
   }
-
-  margin-bottom: 10px;
 }
 
 button {

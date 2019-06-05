@@ -10,8 +10,8 @@ function Settings({ settingsFormHandler, settings }) {
     };
 
     return (
-        <div className="settings">
-            <button id="settings-toggle" onClick={settingsButtonHandler}>{showSettings ? 'Hide Settings' : 'Show Settings'}</button>
+        <div className="settings togglable-section">
+            <button className="show-hide-toggle" onClick={settingsButtonHandler}>{showSettings ? 'Hide Settings' : 'Show Settings'}</button>
             <form onSubmit={settingsFormHandler} className={showSettings ? "" : "hidden"}>
                 <div className="form-row">
                     <label htmlFor="impact">Rename "Impact"</label>
