@@ -1,7 +1,7 @@
 import CsvParse from 'csv-parse';
 
 class Jira {
-    static handleCsvUpload(event, jiraItems, setJiraItems) {
+    static handleCsvUpload(event, newItems, setNewItems) {
         const file = event.target.files[0];
         const parser = CsvParse({delimiter: ',', columns: true, trim: true});
         let newJiraItems = [];
@@ -17,7 +17,7 @@ class Jira {
             return function(e) {
                 parser.write(e.target.result);
                 parser.end();
-                setJiraItems([...jiraItems, ...newJiraItems]);
+                setNewItems([...newItems, ...newJiraItems]);
             };
         })(file);
 

@@ -315,16 +315,26 @@ footer {
   }
 }
 
+.jira-import input,
+.github-import form {
+  display: block;
+  margin: 5px auto;
+  transition: height 400ms ease-in-out;
+  overflow: hidden;
+  &.hidden {
+    height: 0;
+  }
+}
+
 .jira-import {
   input {
     height: 18px;
-    display: block;
-    margin: 5px auto;
-    transition: height 400ms ease-in-out;
-    overflow: hidden;
-    &.hidden {
-      height: 0;
-    }
+  }
+}
+
+.github-import {
+  form {
+    height: 22px;
   }
 
 }
