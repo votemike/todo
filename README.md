@@ -11,6 +11,11 @@ Tah-Do is a todo list with a difference. Tah-Do helps you prioritise your items 
 * To remove an item, click the red "X" to the right of it.
 * Keep adding and removing items to your heart's content. After the first time you've loaded the page, it even works offline.
 
+#### Importing public GitHub issues
+* Click "Import public GitHub issues"
+* In the field, enter the username and repo of the issues you'd like to import e.g. "votemike/todo" (this _must_ be public)
+* One by one, each item will be entered in to the app, choose the effort and impact, then the next item will appear
+
 #### Importing from Jira
 * When viewing your list of issues in Jira, export them as a CSV. Be sure to include the "Issue Key" and "Summary" fields
 * Click "Import from Jira CSV"

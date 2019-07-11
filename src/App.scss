@@ -315,8 +315,7 @@ footer {
   }
 }
 
-.jira-import input,
-.github-import form {
+.togglable-section-content {
   display: block;
   margin: 5px auto;
   transition: height 400ms ease-in-out;
@@ -326,29 +325,16 @@ footer {
   }
 }
 
+.github-import,
 .jira-import {
-  input {
-    height: 18px;
-  }
-}
-
-.github-import {
-  form {
-    height: 22px;
-  }
-
+  height: 22px;
 }
 
 .settings {
-  form {
-    height: 104px;
-    transition: height 400ms ease-in-out;
-    overflow: hidden;
-    padding-bottom: 5px;
+  height: 104px;
 
-    &.hidden {
-      height: 0;
-    }
+  form {
+    padding-bottom: 5px;
 
     .form-row {
       margin: 5px 0;

@@ -8,6 +8,7 @@ import JiraImport from './components/JiraImport';
 import GitHubImport from './components/GitHubImport';
 import GitHub from './utilities/GitHub';
 import Jira from './utilities/Jira';
+import { getPrioritisedTodos, todosNeedSorting } from "./utilities/Todos";
 
 function App() {
   const useStateWithLocalStorage = (storageKey, defaultValue) => {
@@ -72,24 +73,8 @@ function App() {
     setTodos(newTodos);
   };
 
-  const todosNeedSorting = function (todos) {
-    if (todos.length <= 1) {
-      return false;
-    }
-
-    const todosString = JSON.stringify(todos); //clone
-    const prioritisedTodos = getPrioritisedTodos(JSON.parse(todosString));
-
-    return JSON.stringify(prioritisedTodos) !== todosString;
-  };
-
   const prioritiseTodos = () => {
-    setTodos(getPrioritisedTodos(JSON.parse(JSON.stringify(todos))));
-  };
-
-  const getPrioritisedTodos = todos => {
-    todos.sort((a, b) => (b.impact - b.effort) - (a.impact - a.effort));
-    return todos;
+    setTodos(getPrioritisedTodos(todos));
   };
 
   let graph;

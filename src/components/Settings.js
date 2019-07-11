@@ -1,18 +1,10 @@
 import React from 'react';
+import ToggleableSection from "./ToggleableSection";
 
 function Settings({ settingsFormHandler, settings }) {
-    const [showSettings, setShowSettings] = React.useState(false);
-
-    const settingsButtonHandler = event => {
-        event.preventDefault();
-
-        setShowSettings(!showSettings);
-    };
-
     return (
-        <div className="settings togglable-section">
-            <button className="show-hide-toggle" onClick={settingsButtonHandler}>{showSettings ? 'Hide Settings' : 'Show Settings'}</button>
-            <form onSubmit={settingsFormHandler} className={showSettings ? "" : "hidden"}>
+        <ToggleableSection buttonText="Settings" extraClasses="settings">
+            <form onSubmit={settingsFormHandler}>
                 <div className="form-row">
                     <label htmlFor="impact">Rename "Impact"</label>
                     <input
@@ -55,7 +47,7 @@ function Settings({ settingsFormHandler, settings }) {
                 </div>
                 <button type="submit">Save</button>
             </form>
-        </div>
+        </ToggleableSection>
     );
 }
 

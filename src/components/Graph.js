@@ -1,23 +1,9 @@
 import React from 'react';
 import CanvasJSReact from './../canvasjs.react';
+import {decimalToHex, truncateText} from "../utilities/Helpers";
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function Graph({ todos, settings }) {
-
-    const decimalToHex = (decimal) => {
-        let hex = Number(decimal).toString(16);
-
-        while (hex.length < 2) {
-            hex = "0" + hex;
-        }
-
-        return hex;
-    };
-
-    const truncateText = (text, length) => {
-        return text.length > length ? `${text.substring(0, length)}...` : text;
-    };
-
     const dataPoints = todos.map((todo) => {
         const red = 127 + Math.ceil(12.75 * (todo.effort - todo.impact));
         const green = 255 - red;

@@ -23,7 +23,7 @@ const Todo = ({ removeTodo, index, text, effort, impact, settings }) => (
                 </div>
             </div>
         </div>
-        <button className='remove' onClick={() => removeTodo(index)}></button>
+        <button aria-label="Remove Todo" className='remove' onClick={() => removeTodo(index)}></button>
     </li>
 );
 
