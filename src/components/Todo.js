@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Todo = ({ removeTodo, index, text, effort, impact }) => (
+const Todo = ({ removeTodo, index, text, effort, impact, settings }) => (
     <li>
         <div className='todo-text'>
             {text}
@@ -8,7 +8,7 @@ const Todo = ({ removeTodo, index, text, effort, impact }) => (
         <div className="todo-meta">
             <div className="metaline">
                 <div className="metalinelabel">
-                    Effort:
+                    {settings.effort}:
                 </div>
                 <div className="metalinenumber">
                     {effort}
@@ -16,14 +16,14 @@ const Todo = ({ removeTodo, index, text, effort, impact }) => (
             </div>
             <div className="metaline">
                 <div className="metalinelabel">
-                    Impact:
+                    {settings.impact}:
                 </div>
                 <div className="metalinenumber">
                     {impact}
                 </div>
             </div>
         </div>
-        <button className='remove' onClick={() => removeTodo(index)}></button>
+        <button aria-label="Remove Todo" className='remove' onClick={() => removeTodo(index)}></button>
     </li>
 );
 

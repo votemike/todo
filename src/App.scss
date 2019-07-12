@@ -9,13 +9,14 @@ $main-font-size: 24px;
 $small-font-size: 20px;
 $remove-button-width: 40px;
 $remove-button-width-extras: 10px;
-$todo-metas-width: 60px;
+$todo-metas-width: 64px;
+$sabrina: rgba(45, 20, 200, 0.25);
 
 h1 {
   font-size: 100px;
   font-weight: 100;
   text-align: center;
-  color: rgba(45, 20, 200, 0.25);
+  color: $sabrina;
   text-rendering: optimizeLegibility;
 }
 
@@ -246,7 +247,7 @@ h1 {
             .metalinelabel {
               margin-right: 2px;
               text-align: right;
-              width: 40px;
+              width: 44px;
             }
           }
         }
@@ -256,6 +257,10 @@ h1 {
       }
     }
   }
+}
+
+.container {
+  display: flow-root;
 }
 
 .graph {
@@ -290,4 +295,57 @@ footer {
       text-decoration: underline;
     }
   }
+}
+
+.togglable-section {
+  margin-bottom: 10px;
+
+  button.show-hide-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover{
+      text-decoration:underline;
+    }
+  }
+}
+
+.togglable-section-content {
+  display: block;
+  margin: 5px auto;
+  transition: height 400ms ease-in-out;
+  overflow: hidden;
+  &.hidden {
+    height: 0;
+  }
+}
+
+.github-import,
+.jira-import {
+  height: 22px;
+}
+
+.settings {
+  height: 104px;
+
+  form {
+    padding-bottom: 5px;
+
+    .form-row {
+      margin: 5px 0;
+
+      label {
+        margin: 0 5px;
+      }
+    }
+  }
+}
+
+button {
+  background-color: $sabrina;
 }

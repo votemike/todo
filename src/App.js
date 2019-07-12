@@ -3,6 +3,12 @@ import './App.scss';
 import Graph from './components/Graph';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
+import Settings from './components/Settings';
+import JiraImport from './components/JiraImport';
+import GitHubImport from './components/GitHubImport';
+import GitHub from './utilities/GitHub';
+import Jira from './utilities/Jira';
+import { getPrioritisedTodos, todosNeedSorting } from "./utilities/Todos";
 
 function App() {
   let search = window.location.search;
@@ -17,23 +23,37 @@ function App() {
       })
       .catch(err => { throw err });
 
-  const useStateWithLocalStorage = (storageKey, defaultTodos = null) => {
-    const [value, setValue] = React.useState(JSON.parse(localStorage.getItem(storageKey)) || defaultTodos);
+  const useStateWithLocalStorage = (storageKey, defaultValue) => {
+    const [name, setter] = React.useState(JSON.parse(localStorage.getItem(storageKey)) || defaultValue);
 
     React.useEffect(() => {
-      localStorage.setItem(storageKey, JSON.stringify(value));
-    }, [value, storageKey]);
+      localStorage.setItem(storageKey, JSON.stringify(name));
+    }, [name, storageKey]);
 
-    return [value, setValue];
+    return [name, setter];
   };
 
-  const defaultTodos = [
-    { effort: 1, impact: 10, text: "Add to Home screen" },
-    { effort: 2, impact: 9, text: "Add some todos" },
-    { effort: 3, impact: 4, text: "Test offline" }
-  ];
-  const [todos, setTodos] = useStateWithLocalStorage('todos', defaultTodos);
-  const [importing, setImporting] = useStateWithLocalStorage('importing');
+  const [todos, setTodos] = useStateWithLocalStorage(
+      'todos',
+      [
+          { effort: 1, impact: 10, text: "Add to Home screen" },
+          { effort: 2, impact: 9, text: "Add some todos" },
+          { effort: 3, impact: 4, text: "Test offline" }
+      ]
+  );
+  const effortRef = React.createRef();
+  const [settings, setSettings] = useStateWithLocalStorage('settings', {impact: "Impact", effort: "Effort", showLabels: false});
+  const [newItems, setNewItems] = React.useState([]);
+  const [newItemText, setNewItemText] = React.useState('');
+  React.useEffect(() => {
+    if (newItems.length > 0 && newItemText === '') {
+      setNewItemText(newItems[0].text);
+      const newestItems = [...newItems];
+      newestItems.splice(0, 1);
+      setNewItems(newestItems);
+      effortRef.current.focus();
+    }
+  }, [newItems, newItemText, setNewItems, effortRef]);
 
   React.useEffect((foo, setTodos, todos) => {
     if (foo && todos.length > 0) {
@@ -54,15 +74,25 @@ function App() {
   const addTodoHandler = event => {
     event.preventDefault();
 
-    const text = event.target.elements.todo.value.trim();
+    let { todo, impact, effort } = event.target.elements;
+
+    const text = todo.value.trim();
 
     if (text) {
-      const newTodos = [...todos, { text: event.target.elements.todo.value, effort: event.target.elements.effort.value || 5, impact: event.target.elements.impact.value || 5 }];
+      const newTodos = [...todos, { text: todo.value, effort: effort.value || 5, impact: impact.value || 5 }];
       setTodos(newTodos);
-      event.target.elements.todo.value = null;
-      event.target.elements.effort.value = null;
-      event.target.elements.impact.value = null;
+      effort.value = null;
+      impact.value = null;
+      setNewItemText('');
     }
+  };
+
+  const settingsFormHandler = event => {
+    event.preventDefault();
+
+    const { impact, effort, tooltip } = event.target.elements;
+
+    setSettings({impact: impact.value, effort: effort.value, showLabels: !tooltip.checked });
   };
 
   const removeTodo = index => {
@@ -71,24 +101,8 @@ function App() {
     setTodos(newTodos);
   };
 
-  const todosNeedSorting = function (todos) {
-    if (todos.length <= 1) {
-      return false;
-    }
-
-    const todosString = JSON.stringify(todos); //clone
-    const prioritisedTodos = getPrioritisedTodos(JSON.parse(todosString));
-
-    return JSON.stringify(prioritisedTodos) !== todosString;
-  };
-
   const prioritiseTodos = () => {
-    setTodos(getPrioritisedTodos(JSON.parse(JSON.stringify(todos))));
-  };
-
-  const getPrioritisedTodos = todos => {
-    todos.sort((a, b) => (b.impact - b.effort) - (a.impact - a.effort));
-    return todos;
+    setTodos(getPrioritisedTodos(todos));
   };
 
   let graph;
@@ -97,7 +111,7 @@ function App() {
   if (todos.length > 0) {
     todoList = (
         <section className="list">
-          <TodoList todos={todos} removeTodo={removeTodo}/>
+          <TodoList todos={todos} removeTodo={removeTodo} settings={settings}/>
         </section>
     );
     sortButton = (
@@ -107,7 +121,7 @@ function App() {
     );
     graph = (
         <div className="graph">
-          <Graph todos={todos}/>
+          <Graph todos={todos} settings={settings}/>
         </div>
     );
   }
@@ -117,13 +131,18 @@ function App() {
         <header>
           <h1>Tah-Do</h1>
         </header>
-        <div className="notepad">
-          <AddTodo submitHandler={addTodoHandler} />
-          {sortButton}
-          {todoList}
+        <div className="container">
+          <div className="notepad">
+            <AddTodo newItemText={newItemText} submitHandler={addTodoHandler} settings={settings} effortRef={effortRef} />
+            {sortButton}
+            {todoList}
+          </div>
+          {graph}
         </div>
-        {graph}
         <footer>
+          <GitHubImport handleSubmit={(event) => GitHub.importIssues(event, newItems, setNewItems)}/>
+          <JiraImport handleFiles={(event) => Jira.handleCsvUpload(event, newItems, setNewItems)}/>
+          <Settings settingsFormHandler={settingsFormHandler} settings={settings} />
           <a href="https://github.com/votemike/todo#Tah-Do">About Tah-Do</a>
         </footer>
       </div>
