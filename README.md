@@ -4,7 +4,7 @@
 Tah-Do is a todo list with a difference. Tah-Do helps you prioritise your items with impact vs effort.
 
 ### How to use
-* Type your item in to the box provided. When adding each item, also specify the effort each item will take to complete along with the impact each item will have.
+* Type your item in to the box provided. When adding each item, also specify the effort each item will take to complete along with the impact each item will have. (Do not store sensitive information)
 * Click "Add".
 * Keep adding all your items. When you are ready to prioritise the list, click "Prioritise".
 * Start working through your items, starting at the top of the list.

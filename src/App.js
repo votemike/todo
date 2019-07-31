@@ -24,9 +24,10 @@ function App() {
   const [todos, setTodos] = useStateWithLocalStorage(
       'todos',
       [
-          { effort: 1, impact: 10, text: "Add to Home screen" },
-          { effort: 2, impact: 9, text: "Add some todos" },
-          { effort: 3, impact: 4, text: "Test offline" }
+          { effort: 1, impact: 10, text: "Do not store sensitive information" },
+          { effort: 3, impact: 4, text: "Test offline" },
+          { effort: 2, impact: 8, text: "Add to Home screen" },
+          { effort: 2, impact: 9, text: "Add some todos" }
       ]
   );
   const effortRef = React.createRef();
