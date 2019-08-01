@@ -30,6 +30,7 @@ function App() {
           { effort: 2, impact: 9, text: "Add some todos" }
       ]
   );
+  const todoRef = React.createRef();
   const effortRef = React.createRef();
   const [settings, setSettings] = useStateWithLocalStorage('settings', {impact: "Impact", effort: "Effort", showLabels: false});
   const [newItems, setNewItems] = React.useState([]);
@@ -57,6 +58,10 @@ function App() {
       effort.value = null;
       impact.value = null;
       setNewItemText('');
+      if (newItems.length === 0) {
+          todo.value = null;
+          todoRef.current.focus();
+      }
     }
   };
 
@@ -106,7 +111,7 @@ function App() {
         </header>
         <div className="container">
           <div className="notepad">
-            <AddTodo newItemText={newItemText} submitHandler={addTodoHandler} settings={settings} effortRef={effortRef} />
+            <AddTodo newItemText={newItemText} submitHandler={addTodoHandler} settings={settings} effortRef={effortRef} todoRef={todoRef} />
             {sortButton}
             {todoList}
           </div>

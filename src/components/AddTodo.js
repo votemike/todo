@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TodoForm({ effortRef, newItemText, submitHandler, settings }) {
+function TodoForm({ effortRef, todoRef, newItemText, submitHandler, settings }) {
     return (
         <form onSubmit={submitHandler}>
             <div className="text-input-wrapper">
@@ -11,6 +11,7 @@ function TodoForm({ effortRef, newItemText, submitHandler, settings }) {
                     defaultValue={newItemText}
                     autoFocus={true}
                     required={true}
+                    ref={todoRef}
                 />
             </div>
             <div className="ei-wrapper">
