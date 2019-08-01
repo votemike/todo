@@ -27,6 +27,9 @@ Tah-Do is a todo list with a difference. Tah-Do helps you prioritise your items 
 * **When exporting the graph, there are no labels**: Click "Show Settings", then "Show Labels", then "Save". Then try exporting again.
 * For any other issues, [tweet me](https://twitter.com/OfficialGwynne) or [open a GitHub issue](https://github.com/votemike/todo/issues/new)
 
+### Tips
+* If you would like to link to Tah-Do but would like to use different words for Impact or Effort, you can append modifiers to the URL of the link you share (e.g. https://tahdo.app/?negative=Cost&positive=Benefit or https://tahdo.app/?negative=Risk&positive=Reward).
+
 ## Running locally
 * Clone the repo
 * cd in to the directory

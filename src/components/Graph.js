@@ -27,7 +27,7 @@ function Graph({ todos, settings }) {
         exportEnabled: true,
         animationEnabled: true,
         title: {
-            text: `${settings.impact}/${settings.effort}`,
+            text: `${settings.effort}/${settings.impact}`,
             fontFamily: "Helvetica",
             titleFontColor: "#4d4d4d"
         },

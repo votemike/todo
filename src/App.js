@@ -21,6 +21,23 @@ function App() {
     return [name, setter];
   };
 
+  const getDefaultSettings = () => {
+    const defaultSettings = {impact: "Impact", effort: "Effort", showLabels: false};
+
+    if (window.location.search) {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get('positive')) {
+        defaultSettings.impact = searchParams.get('positive');
+      }
+      if (searchParams.get('negative')) {
+        defaultSettings.effort = searchParams.get('negative');
+      }
+      window.history.pushState("", "", '/');
+    }
+
+    return defaultSettings;
+};
+
   const [todos, setTodos] = useStateWithLocalStorage(
       'todos',
       [
@@ -32,7 +49,7 @@ function App() {
   );
   const todoRef = React.createRef();
   const effortRef = React.createRef();
-  const [settings, setSettings] = useStateWithLocalStorage('settings', {impact: "Impact", effort: "Effort", showLabels: false});
+  const [settings, setSettings] = useStateWithLocalStorage('settings', getDefaultSettings());
   const [newItems, setNewItems] = React.useState([]);
   const [newItemText, setNewItemText] = React.useState('');
   React.useEffect(() => {
