@@ -62,21 +62,16 @@ function App() {
     }
   }, [newItems, newItemText, setNewItems, effortRef]);
 
-  const addTodoHandler = event => {
-    event.preventDefault();
+  const addTodoHandler = formState => {
+    let { todo, impact, effort } = formState;
 
-    let { todo, impact, effort } = event.target.elements;
-
-    const text = todo.value.trim();
+    const text = todo.trim();
 
     if (text) {
-      const newTodos = [...todos, { text: todo.value, effort: effort.value || 5, impact: impact.value || 5 }];
+      const newTodos = [...todos, { text: todo, effort: effort || 5, impact: impact || 5 }];
       setTodos(newTodos);
-      effort.value = null;
-      impact.value = null;
       setNewItemText('');
       if (newItems.length === 0) {
-          todo.value = null;
           todoRef.current.focus();
       }
     }
