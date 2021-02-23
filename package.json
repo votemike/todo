@@ -10,7 +10,7 @@
     "github-api": "^3.2.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "^3.0.0"
+    "react-scripts": "^4.0.2"
   },
   "scripts": {
     "predeploy": "npm run build && echo tahdo.app > build/CNAME",
